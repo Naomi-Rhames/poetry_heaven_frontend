@@ -7,8 +7,44 @@
 </head>
 <body>
    
-   <div id="poem-container">
+   <div class="form-container">
+
+      <form id="create-poem-form" style="">
+         <h3>Create a Poem</h3>
       
+         <p>Choose Category:</p>
+         <select id="categories" name="categories">
+            <option value= "1">Haiku</option>
+            <option value= "2">Free Verse</option>
+            <option value= "3">Sonnet</option>
+            <option value= "4">Acrostic</option>
+            <option value= "5">Villanelle</option>
+            <option value= "6">Limerick</option>
+            <option value= "7">Ode</option>
+            <option value= "9">Elegy</option>
+            <option value= "9">Ballad</option>
+            <option value= "10">Stanza</option>
+            <option value= "11">Epigram</option>
+            <option value= "12">Epitaph</option> 
+         </select>
+         <br><br>
+         <input id='input-url' type="text" name="image" value=""
+         placeholder="Enter Image URL" class="input-text">
+         <br></br>
+         <input id='input-title' type="text" name="title" value=""
+         placeholder="Enter Title" class="input-text">
+         <br></br>
+         <input id='input-author' name="author" value=""
+         placeholder="Enter Your Name" class="input-text">
+         <br></br>
+         <textarea id='input-stanza' type="stanza" value="" placeholder="Make your magic poem"></textarea>
+         <br></br> 
+         <input id='create=button' type="submit"  name="submit" value="Create Poem" class="submit">
+         <br><br>
+      </form>
+   </div>
+   <div id="poem-container">
+
    </div>
 </body>
 </html>
