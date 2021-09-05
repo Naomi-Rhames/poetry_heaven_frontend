@@ -7,23 +7,36 @@ function createFormHandler(e){ // this prevent Deafult Behavior
   const authorInput = document.querySelector('#input-author').value
   const stanzaInput = document.querySelector('#input-stanza').value
   const categoryInput = parseInt(document.querySelector('#categories').value)
-   postFetch(imageInput,titleInput,authorInput,stanzaInput);
+   postFetch(imageInput,titleInput,authorInput,stanzaInput,categoryInput);
 } 
 
-function postFetch(image_url, title, author, stanza){
-  const bodyData = {image_url, title, author, stanza}
+function postFetch(image_url, title, author, stanza, category_id){
+  const bodyData = {image_url, title, author, stanza, category_id}
   fetch(myAPI, {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify(bodyData)
   })
   .then(response => response.json())  
-  .then(poem => {
-    console.log(poem); 
+  .then(poem => { poem
+    const poemsMarkup = `
+    <div data-id=${poem.id}>
+      <img
+      src=${image_url}
+      height="200" width="250">
+      <h3>${poem.title}</h3>
+      <p> ${poem.author}</p>
+      <p>${poem.stanza}</p>
+      <button data-id=${poem.id}>edit</button>
+      </div>
+      <br></br>`;
+
+      document.querySelector('#poem-container').innerHTML += poemsMarkup
+
   })
   
 }
-/////////////////////////////////
+
 document.addEventListener('DOMContentLoaded', () => {
   getPoem()
   
@@ -54,6 +67,8 @@ function getPoem() {
       document.querySelector('#poem-container').innerHTML += poemsMarkup // we are appending it and updating thr inner HTML and appending that #poem-container div that we created in the index.html file
       })   
   })
+
+
 
 }
 
