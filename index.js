@@ -34,8 +34,35 @@ function postFetch(image_url, title, author, stanza, category_id){
       document.querySelector('#poem-container').innerHTML += poemsMarkup
 
   })
-  
+    
 }
+
+function updateFormHandler(e){
+  e.preventDefault();
+  const id = parseInt(e.target.dataset.id);
+  const poem = Poem.findById(id)
+  const title = e.target.querySelector('#input-title').value;
+  const author = e.target.querySelector('#input-author').value
+  const stanza = e.target.querySelector('#input-stanza').value;
+  const image_url = e.target.querySelector('#input-url').value;
+  const category_id =  parseInt(e.target.querySelector('#categories').value);
+  patchPoem(poem, title, author, stanza, image_url, category_id)
+}
+
+function patchPoem(poem, title, author, stanza, image_url, category_id){
+  const bodyJSON = (poem, title, author, stanza, image_url, category_id)
+  fetch(`http://127.0.0.1:3000/api/v1/poems/${poem.id}`, {
+    method:'PATCH',
+    header: {
+      "Content-Type": "application/json",
+      Accept: 'application/json'
+    },
+    body: JSON.stringify(bodyJSON)
+  })
+  .then(res => res.json())
+  .then(updatePoem => console.log(updatePoem))
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   getPoem()
@@ -44,6 +71,15 @@ document.addEventListener('DOMContentLoaded', () => {
    
     createPoemForm.addEventListener("submit", (e) => 
     createFormHandler(e))
+
+    const poemContainer = document.querySelector("#poem-container")
+    poemContainer.addEventListener('click', e => {
+      const id = parseInt(e.target.dataset.id);
+      const poem = Poem.findById(id)
+      document.querySelector('#update-poem').innerHTML = poem.renderUpdateForm();
+   
+    })
+    document.querySelector('#update-poem').addEventListener('submit', e => updateFormHandler(e))
   });
 
  
@@ -56,7 +92,7 @@ function getPoem() {
      let newPoem = new Poem(poem, poem.attributes)
      
      document.querySelector('#poem-container').innerHTML += newPoem.renderPoemCard()
-      })   
+      }) 
   })
 
 
