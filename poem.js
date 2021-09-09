@@ -2,6 +2,7 @@ class Poem {
     constructor(poem, poemAttributes){
         this.id = poem.id
         this.title = poemAttributes.title
+        this.genre = poemAttributes.genre
         this.author = poemAttributes.author
         this.stanza = poemAttributes.stanza
         this.image_url = poemAttributes.image_url
@@ -41,6 +42,10 @@ class Poem {
         <br></br>
 
 
+        <label> Edit Genre</label>
+        <input id='input-genre' type="text" name="genre" value="${this.genre}" class="input-text">
+        <br></br>
+
         <label> Edit Title</label>
         <input id='input-title' type="text" name="title" value="${this.title}" class="input-text">
         <br></br>
@@ -65,6 +70,7 @@ class Poem {
         <div data-id=${this.id}>
             <img src=${this.image_url} height="200" width="250">
             <h3>${this.title}</h3>
+            <p>${this.genre}<p>
             <p> ${this.author}</p>
             <p>${this.stanza}</p>
             <button data-id=${this.id}>edit</button>
