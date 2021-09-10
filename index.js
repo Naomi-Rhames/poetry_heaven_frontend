@@ -59,7 +59,7 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
     poem.update(updatePoem.data.attributes);
     document.querySelector('#poem-container').innerHTML = '';
     Poem.all.forEach(poem => document.querySelector('#poem-container').innerHTML += poem.renderPoemCard());
-    document.querySelector('#update-poem').innerHTML += '';
+    document.querySelector('#update-poem').innerHTML = '';
 
   });
   
