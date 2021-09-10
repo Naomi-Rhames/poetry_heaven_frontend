@@ -1,15 +1,6 @@
 const myAPI = "http://127.0.0.1:3000/api/v1/poems"
 
-function createFormHandler(e){ // this prevent Deafult Behavior
-  e.preventDefault()
-  const imageInput = document.querySelector('#input-url').value
-  const titleInput = document.querySelector('#input-title').value
-  const genreInput = document.querySelector('#input-genre').value
-  const authorInput = document.querySelector('#input-author').value
-  const stanzaInput = document.querySelector('#input-stanza').value
-  const categoryInput = parseInt(document.querySelector('#categories').value)
-   postFetch(imageInput,titleInput,genreInput,authorInput,stanzaInput,categoryInput);
-} 
+ 
 
 function postFetch(image_url, title, genre, author, stanza, category_id){
   const bodyData = {image_url, title, genre, author, stanza, category_id}
@@ -54,7 +45,6 @@ function updateFormHandler(e){
 
 function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
   const bodyJSON = {title, genre, author, stanza, image_url, category_id }
-  debugger
   fetch(`http://127.0.0.1:3000/api/v1/poems/${poem.id}`, {
     method:'PATCH',
     headers: {
@@ -64,23 +54,15 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
     body: JSON.stringify(bodyJSON)
   })
   .then(res => res.json())
-  .then(updatePoem => { updatePoem
-    const updatedPoem = `
-    <div data-id=${updatePoem.id}>
-      <img
-      src=${updatePoem.data.attributes.image_url}
-      height="200" width="250">
-      <h3>${updatePoem.data.attributes.title}</h3>
-      <p>${updatePoem.data.attributes.genre}</p>
-      <p> ${updatePoem.data.attributes.author}</p>
-      <p>${updatePoem.data.attributes.stanza}</p>
-      <button data-id=${updatePoem.id}>edit</button>
-      </div>
-      <br></br>`
-
-      document.querySelector('#poem-container').innerHTML += updatedPoem;
+  .then(updatePoem => { 
+    const poem = Poem.findById(updatePoem.data.id);
+    poem.update(updatePoem.data.attributes);
+    document.querySelector('#poem-container').innerHTML = '';
+    Poem.all.forEach(poem => document.querySelector('#poem-container').innerHTML += poem.renderPoemCard());
+    document.querySelector('#update-poem').innerHTML += '';
 
   });
+  
 }
 
 
@@ -103,6 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('#update-poem').addEventListener('submit', e => updateFormHandler(e))
 });
 
+function createFormHandler(e){ // this prevent Deafult Behavior
+  e.preventDefault()
+  const imageInput = document.querySelector('#input-url').value
+  const titleInput = document.querySelector('#input-title').value
+  const genreInput = document.querySelector('#input-genre').value
+  const authorInput = document.querySelector('#input-author').value
+  const stanzaInput = document.querySelector('#input-stanza').value
+  const categoryInput = parseInt(document.querySelector('#categories').value)
+   postFetch(imageInput,titleInput,genreInput,authorInput,stanzaInput,categoryInput);
+} 
  
 function getPoem() {
     fetch(myAPI)

@@ -65,6 +65,15 @@ class Poem {
         
     }
 
+    update({image_url, title, genre, author, stanza}){
+        this.image_url = image_url;
+        this.title = title;
+        this.genre = genre;
+        this.author = author;
+        this.stanza = stanza;
+    }
+
+
     renderPoemCard() {
         return `
         <div data-id=${this.id}>
