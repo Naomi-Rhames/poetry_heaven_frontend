@@ -10,21 +10,9 @@ function postFetch(image_url, title, genre, author, stanza, category_id){
     body: JSON.stringify(bodyData)
   })
   .then(response => response.json())  
-  .then(poem => { poem
-    const poemsMarkup = `
-    <div data-id=${poem.id}>
-      <img
-      src=${poem.data.attributes.image_url}
-      height="200" width="250">
-      <h3>${poem.data.attributes.title}</h3>
-      <p>${poem.data.attributes.genre}</p>
-      <p> ${poem.data.attributes.author}</p>
-      <p>${poem.data.attributes.stanza}</p>
-      <button data-id=${poem.id}>edit</button>
-      </div>
-      <br></br>`;
-
-      document.querySelector('#poem-container').innerHTML += poemsMarkup;
+  .then(poem => { 
+    const newPoems = new Poem(poem.data.id, poem.data.attributes)
+      document.querySelector('#poem-container').innerHTML += newPoems.renderPoemCard();
 
   })
     
@@ -71,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
   const createPoemForm = document.querySelector("#create-poem-form")
-   
     createPoemForm.addEventListener("submit", (e) => 
     createFormHandler(e))
 
@@ -79,8 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
     poemContainer.addEventListener('click', e => {
       const id = parseInt(e.target.dataset.id);
       const poem = Poem.findById(id)
-      document.querySelector('#update-poem').innerHTML = poem.renderUpdateForm();
-   
+      // debugger
+      document.querySelector('#update-poem').innerHTML += poem.renderUpdateForm();
+
     })
     document.querySelector('#update-poem').addEventListener('submit', e => updateFormHandler(e))
 });
@@ -101,10 +89,9 @@ function getPoem() {
     .then(response => response.json())
     .then(poem => { poem.data.forEach(poem => { // we are using an arrow function because we are iterating through my API
      
-      // debugger
-     let newPoem = new Poem(poem, poem.attributes)
-     
-     document.querySelector('#poem-container').innerHTML += newPoem.renderPoemCard()
+     let displayPoem = new Poem(poem, poem.attributes)
+
+     document.querySelector('#poem-container').innerHTML += displayPoem.renderPoemCard()
       }) 
   })
 
