@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
     poemContainer.addEventListener('click', e => {
       const id = parseInt(e.target.dataset.id);
       const poem = Poem.findById(id)
-      // debugger
       document.querySelector('#update-poem').innerHTML += poem.renderUpdateForm();
 
     })
@@ -89,8 +88,7 @@ function getPoem() {
     .then(response => response.json())
     .then(poem => { poem.data.forEach(poem => { // we are using an arrow function because we are iterating through my API
      
-     let displayPoem = new Poem(poem, poem.attributes)
-
+     let displayPoem = new Poem(poem.id, poem.attributes)
      document.querySelector('#poem-container').innerHTML += displayPoem.renderPoemCard()
       }) 
   })

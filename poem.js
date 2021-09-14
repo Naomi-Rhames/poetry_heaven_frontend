@@ -8,7 +8,6 @@ class Poem {
         this.image_url = poemAttributes.image_url
         this.category = poemAttributes.category
         Poem.all.push(this)
-        // debugger
     } 
 
     static findById(id){
