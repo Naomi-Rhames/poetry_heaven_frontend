@@ -61,24 +61,24 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
  
 }
 
-function deletePoem(e) {
-  const id = e.target.id
-  fetch(`http://127.0.0.1:3000/api/v1/poems/${id}`, {
-    method: "DELETE",
-  })
-  .then(res => res.json())
-  .then(deletePoems => {
-    Poem.all = Poem.all.filter(poem => poem.id != deletePoems.id)
-    document.querySelector('#poem-container').innerHTML = "";
-    Poem.all.forEach(filteredPoem =>{
-      document.querySelector('#poem-container').innerHTML = filteredPoem.renderPoemCard();
+// function deletePoem(e) {
+//   const id = e.target.id
+//   fetch(`http://127.0.0.1:3000/api/v1/poems/${id}`, {
+//     method: "DELETE",
+//   })
+//   .then(res => res.json())
+//   .then(deletePoems => {
+//     Poem.all = Poem.all.filter(poem => poem.id != deletePoems.id)
+//     document.querySelector('#poem-container').innerHTML = "";
+//     Poem.all.forEach(filteredPoem =>{
+//       document.querySelector('#poem-container').innerHTML = filteredPoem.renderPoemCard();
 
 
    
 
-    })
-  })
-}
+//     })
+//   })
+// }
 
 
 
