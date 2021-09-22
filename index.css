@@ -1,0 +1,73 @@
+bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+  }
+  .btn-outline-success {
+    color: #B76E79;
+    border-color: #B76E79;
+}
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+  .bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: #B76E79!important;
+}
+  .btn-primary {
+    color: #fff;
+    background-color: #B76E79;
+    border-color: #B76E79;
+}
+
+.g-3, .gy-3 {
+    --bs-gutter-y: 1rem;
+}
+.g-3, .gx-3 {
+    --bs-gutter-x: 1rem;
+}
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) * -.5);
+    margin-left: calc(var(--bs-gutter-x) * -.5);
+}
+.card{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+
+
+  .jumbotron p:last-child{
+      margin-bottom: 0;
+  }
+  .jumbotron h1 {
+      font-weight: 300;
+  }
+  .jumbotron .container {
+      max-width: 40rem;
+  }
+  .footer {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
+  }
+
+  .footer p {
+      margin-bottom: .25rem;
+  }

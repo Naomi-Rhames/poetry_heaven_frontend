@@ -1,3 +1,4 @@
+
 const myAPI = "http://127.0.0.1:3000/api/v1/poems"
 
 
@@ -19,8 +20,10 @@ function postFetch(image_url, title, genre, author, stanza, category_id){
   .then(poem => { 
     const newPoems = new Poem(poem.data.id, poem.data.attributes)
       document.querySelector('#poem-container').innerHTML += newPoems.renderPoemCard();
+
+     
   })
-    
+ 
 }
 
 function updateFormHandler(e){ // this "e" represents the event listener  it allows if you pass it in if you need it  or don't pass it in if you don't need it 
@@ -55,13 +58,38 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
     document.querySelector('#update-poem').innerHTML = '';
 
   });
-  
+ 
 }
+
+function deletePoem(e) {
+  const id = e.target.id
+  fetch(`http://127.0.0.1:3000/api/v1/poems/${id}`, {
+    method: "DELETE",
+  })
+  .then(res => res.json())
+  .then(deletePoems => {
+    Poem.all = Poem.all.filter(poem => poem.id != deletePoems.id)
+    document.querySelector('#poem-container').innerHTML = "";
+    Poem.all.forEach(filteredPoem =>{
+      document.querySelector('#poem-container').innerHTML = filteredPoem.renderPoemCard();
+
+
+   
+
+    })
+  })
+}
+
 
 
 document.addEventListener('DOMContentLoaded', () => {
   getPoem()
 
+
+ const sortPoemBttn = document.querySelector("#sort-button")
+ sortPoemBttn.addEventListener("click", (e) => {
+   sortPoems()
+ })
   
   const createPoemForm = document.querySelector("#create-poem-form")
     createPoemForm.addEventListener("submit", (e) => 
@@ -76,6 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     document.querySelector('#update-poem').addEventListener('submit', e => updateFormHandler(e))
 });
+
+
+
 
 function createFormHandler(e){ // this prevent Deafult Behavior
   e.preventDefault()
@@ -96,9 +127,30 @@ function getPoem() {
      let displayPoem = new Poem(poem.id, poem.attributes)
      document.querySelector('#poem-container').innerHTML += displayPoem.renderPoemCard() // When I am invoking the function it would just call it when this line is read rather than with the paranthesis I am only calling it when the event listener happens
       }) 
-  })
 
+  
+      
+  })
+  
 
  // A callback function is a function that's within another function and that this function only runs when this funtion is ran
+}
+
+function sortPoems() {
+  Poem.all = Poem.all.sort((a,b) => {
+    let titleA = a.title.toLowerCase();
+    let titleB = b.title.toLowerCase();
+    if (titleA < titleB) {
+      return -1;
+    }
+    if (titleA > titleB){
+      return 1;
+    }
+    return 0;
+  })
+  document.querySelector("#poem-container").innerHTML = "";
+  Poem.all.forEach((p) => {
+    document.querySelector("#poem-container").innerHTML += p.renderPoemCard();
+  })
 }
 
