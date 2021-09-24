@@ -64,6 +64,28 @@ class Poem {
         
     }
 
+
+    getpoems(){
+        return Poem.all.filter(c => c.category_id == this.id)
+    }
+    // renderPoemCategory= (e) => {
+    //     // console.log(this)
+    //     const renderPoems = document.querySelector('#poem-conatiner')
+    //     renderPoems.innerHTML = ""
+    //     // debugger
+    //     this.poems.forEach(i => {
+    //         i.attachToDom()
+    //     })
+    //     let seeAllBtn = document.getElementById("all-btn")
+    //     if (!seeAllBtn){
+    //         seeAllBtn = document.createElement('button')
+    //         seeAllBtn.id = "all-btn"
+    //         seeAllBtn.innerText = "See All Items"
+    //         this.employeeList.append(seeAllBtn)
+    //     }
+    //     seeAllBtn.addEventListener("click", this.reset)
+    // }
+
     update({image_url, title, genre, author, stanza, category}){
         this.image_url = image_url;
         this.title = title;
@@ -90,7 +112,7 @@ class Poem {
                 <div class="btn-group">
                   <button data-id=${this.id} type="button">Edit</button>
                 </div>
-                <small class="text-muted">${this.category.name}</small>
+                <small class="filterDiv" class="text-muted">${this.category.name}</small>
               </div>
             </div>
           </div>
@@ -103,7 +125,6 @@ class Poem {
 
 
 Poem.all = [];
-
 
 
 

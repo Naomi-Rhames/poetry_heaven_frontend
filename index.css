@@ -52,7 +52,10 @@ bd-placeholder-img {
     border-radius: .25rem;
 }
 
-
+.btn-outline-secondary {
+  color: #B76E79;
+  border-color: #B76E79;
+}
 
   .jumbotron p:last-child{
       margin-bottom: 0;

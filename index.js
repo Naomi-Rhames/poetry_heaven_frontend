@@ -135,6 +135,34 @@ function getPoem() {
 
  // A callback function is a function that's within another function and that this function only runs when this funtion is ran
 }
+// const search = document.querySelector("#search")
+
+// const searchButton = document.querySelector('#search') 
+// // if (searchBar){
+//   search.addEventListener("click", async (e) => {
+//     // let url = await fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
+//     try { await fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
+//       (res => res.json())
+//     }
+//     catch(err){
+//       console.log(err)
+//     }
+//     // const poemSearch = (search.element.query.value)
+//     // const userInput = document.getElementById("search-bar").value
+  
+
+
+//   })
+
+//   function firstPoem(){
+//     fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
+//     .then(res => res.json())
+//     .then(poem => {
+//       poem
+//     })
+//   }
+
+
 
 function sortPoems() {
   Poem.all = Poem.all.sort((a,b) => {
