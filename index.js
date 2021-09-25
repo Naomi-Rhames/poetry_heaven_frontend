@@ -1,7 +1,8 @@
 
 const myAPI = "http://127.0.0.1:3000/api/v1/poems"
 
-
+// we use inner text to render the html property of emelent innerface represet the rendered text
+// The JavaScript innerHTML property sets the HTML contents of an element on a web page
 
  // A fetch always returns a promise
  // A promise is like a uber app, it can reject or pend or forfill a request from the fetch and its asycornous object (resturaunt expample with waitress)
@@ -85,6 +86,10 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
 document.addEventListener('DOMContentLoaded', () => {
   getPoem()
 
+// const filterCategory = document.querySelector("#bttn")
+// filterCategory.addEventListener("click", (e) => {
+//   filterSelection()
+// })
 
  const sortPoemBttn = document.querySelector("#sort-button")
  sortPoemBttn.addEventListener("click", (e) => {
@@ -135,32 +140,25 @@ function getPoem() {
 
  // A callback function is a function that's within another function and that this function only runs when this funtion is ran
 }
-// const search = document.querySelector("#search")
+const search = document.querySelector("#search")
 
-// const searchButton = document.querySelector('#search') 
-// // if (searchBar){
-//   search.addEventListener("click", async (e) => {
-//     // let url = await fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
-//     try { await fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
-//       (res => res.json())
-//     }
-//     catch(err){
-//       console.log(err)
-//     }
-//     // const poemSearch = (search.element.query.value)
-//     // const userInput = document.getElementById("search-bar").value
+const searchButton = document.querySelector('#search') 
+  search.addEventListener("click", e => {
+    e.preventDefault();
+    let query = document.getElementById("search-bar").value
+      fetch(`http://127.0.0.1:3000/api/v1/search/${query}`)
+      .then(res => res.json())
+      .then(poems => {
+        document.querySelector("#poem-container container").innerHTML = "";
+        poems.forEach((p) => {
+          // debugger
+     
+      })
+    })
   
+  })
 
-
-//   })
-
-//   function firstPoem(){
-//     fetch(`http://127.0.0.1:3000/api/v1/categories/1`)
-//     .then(res => res.json())
-//     .then(poem => {
-//       poem
-//     })
-//   }
+  
 
 
 

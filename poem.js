@@ -96,6 +96,8 @@ class Poem {
     }
 
 
+   
+
     renderPoemCard() {
         return `
         <div data-id=${this.id}>
@@ -120,6 +122,7 @@ class Poem {
    
      
     }
+
     
 }
 
