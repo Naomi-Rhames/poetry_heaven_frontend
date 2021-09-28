@@ -11,13 +11,10 @@ class Poem {
     } 
 
     static findById(id){
-        return this.all.find(poem => { 
+        return this.all.find(poem => { // which goes through the Poems array and pretty much finds that instance id if that matches the actual id that it's looking for
           return  poem.id == id});
     }
-// Whatever it's executing on it is what This will represents
 
-// In which is why we need to use arrow funtions inside of classes to make sure that it binds correctly because arrow functions automatically binds 'this' to the correct thing 
-// so 'this' will always represent the thing that's actually executing the funtion itself
     renderUpdateForm(){
         return `
         <form id="${this.id}">
@@ -65,26 +62,8 @@ class Poem {
     }
 
 
-    getpoems(){
-        return Poem.all.filter(c => c.category_id == this.id)
-    }
-    // renderPoemCategory= (e) => {
-    //     // console.log(this)
-    //     const renderPoems = document.querySelector('#poem-conatiner')
-    //     renderPoems.innerHTML = ""
-    //     // debugger
-    //     this.poems.forEach(i => {
-    //         i.attachToDom()
-    //     })
-    //     let seeAllBtn = document.getElementById("all-btn")
-    //     if (!seeAllBtn){
-    //         seeAllBtn = document.createElement('button')
-    //         seeAllBtn.id = "all-btn"
-    //         seeAllBtn.innerText = "See All Items"
-    //         this.employeeList.append(seeAllBtn)
-    //     }
-    //     seeAllBtn.addEventListener("click", this.reset)
-    // }
+ 
+ 
 
     update({image_url, title, genre, author, stanza, category}){
         this.image_url = image_url;
@@ -94,9 +73,6 @@ class Poem {
         this.stanza = stanza;
         this.category = category;
     }
-
-
-   
 
     renderPoemCard() {
         return `
@@ -119,19 +95,9 @@ class Poem {
             </div>
           </div>
         </div> `;
-   
-     
-    }
-
-    
+    } 
 }
-
 
 Poem.all = [];
 
 
-
-// The diffrent between
-// let - can be changed, it needs to be iniatilzed before getting called
-// var - basically a way variables were declared initally in JS, can be changed but best not to use bc it will cause errors if you try to reassign (Considered as a global variable bc of how it get hoisted and when it does it automatically becomes undefined before it's initalized)
-// const - cannot be reassigned
