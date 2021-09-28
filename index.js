@@ -143,7 +143,7 @@ function getPoem() {
 //     let query = document.getElementById("search-bar").value
 //       fetch(`http://127.0.0.1:3000/api/v1/search/${query}`)
 //       .then(res => res.json())
-//       .then(poems => console.log(poems)
+//       .then(poems => console.log()
 //        
      
 //       })
