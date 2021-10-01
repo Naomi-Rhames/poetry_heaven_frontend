@@ -1,6 +1,50 @@
 
 const myAPI = "http://127.0.0.1:3000/api/v1/poems"
+const createPoemForm = document.querySelector("#create-poem-form")
+const poemContainer = document.querySelector('#poem-container')
+const searchButton = document.querySelector('#search')
+const updatePoemContainer = document.querySelector('#update-poem')
 
+document.addEventListener('DOMContentLoaded', () => {
+  getPoem()
+
+ const sortPoemBttn = document.querySelector("#sort-button")
+ sortPoemBttn.addEventListener("click", (e) => {
+   sortPoems()
+ })
+  
+  createPoemForm.addEventListener("submit", (e) => 
+    createFormHandler(e))
+    
+   poemContainer.addEventListener('click', e => {
+      const id = parseInt(e.target.dataset.id);
+      const poem = Poem.findById(id)
+      updatePoemContainer.innerHTML += poem.renderUpdateForm();
+    })
+    updatePoemContainer.addEventListener('submit', e => updateFormHandler(e))
+});
+
+function getPoem() {
+  fetch(myAPI)
+  .then(response => response.json())
+  .then(poem => { poem.data.forEach(poem => {
+   let displayPoem = new Poem(poem.id, poem.attributes)
+   poemContainer.innerHTML += displayPoem.renderPoemCard() 
+    })  
+  })
+}
+  
+function createFormHandler(e){ 
+  e.preventDefault()
+  const imageInput = document.querySelector('#input-url').value
+  const titleInput = document.querySelector('#input-title').value
+  const genreInput = document.querySelector('#input-genre').value
+  const authorInput = document.querySelector('#input-author').value
+  const stanzaInput = document.querySelector('#input-stanza').value
+  const categoryInput = parseInt(document.querySelector('#categories').value)
+  createPoemForm.reset()
+   postFetch(imageInput,titleInput,genreInput,authorInput,stanzaInput,categoryInput);
+} 
 
 function postFetch(image_url, title, genre, author, stanza, category_id){
   const bodyData = {image_url, title, genre, author, stanza, category_id} 
@@ -12,9 +56,8 @@ function postFetch(image_url, title, genre, author, stanza, category_id){
   .then(response => response.json()) 
   .then(poem => { 
     const newPoems = new Poem(poem.data.id, poem.data.attributes)
-      document.querySelector('#poem-container').innerHTML += newPoems.renderPoemCard();
+    poemContainer.innerHTML += newPoems.renderPoemCard();
   })
- 
 }
 
 function updateFormHandler(e){
@@ -32,9 +75,9 @@ function updateFormHandler(e){
 
 function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
   const bodyJSON = {title, genre, author, stanza, image_url, category_id }
-  fetch(`http://127.0.0.1:3000/api/v1/poems/${poem.id}`, {
+  fetch(myAPI + `/${poem.id}`, {
     method:'PATCH',
-    headers: {
+    headers: {   
       "Content-Type": "application/json",
       Accept: 'application/json'
     },
@@ -44,103 +87,43 @@ function patchPoem(title, genre, author, stanza, image_url, category_id, poem){
   .then(updatePoem => { 
     let poem = Poem.findById(updatePoem.data.id);
     poem.update(updatePoem.data.attributes); 
-    document.querySelector('#poem-container').innerHTML = '';
-    Poem.all.forEach(poem => document.querySelector('#poem-container').innerHTML += poem.renderPoemCard());
-    document.querySelector('#update-poem').innerHTML = '';
-
+    poemContainer.innerHTML = '';
+    Poem.all.forEach(poem => poemContainer.innerHTML += poem.renderPoemCard());
+    updatePoemContainer.innerHTML = '';
   });
- 
 }
-
-// function deletePoem(e) {
-//   const id = e.target.id
-//   fetch(`http://127.0.0.1:3000/api/v1/poems/${id}`, {
-//     method: "DELETE",
-//   })
-//   .then(res => res.json())
-//   .then(deletePoems => {
-//     Poem.all = Poem.all.filter(poem => poem.id != deletePoems.id)
-//     document.querySelector('#poem-container').innerHTML = "";
-//     Poem.all.forEach(filteredPoem =>{
-//       document.querySelector('#poem-container').innerHTML = filteredPoem.renderPoemCard();
-
-
-   
-
-//     })
-//   })
-// }
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  getPoem()
-
- const sortPoemBttn = document.querySelector("#sort-button")
- sortPoemBttn.addEventListener("click", (e) => {
-   sortPoems()
- })
-  
-  const createPoemForm = document.querySelector("#create-poem-form")
-    createPoemForm.addEventListener("submit", (e) => 
-    createFormHandler(e))
-
-    const poemContainer = document.querySelector("#poem-container")
-    poemContainer.addEventListener('click', e => {
-      const id = parseInt(e.target.dataset.id);
-      const poem = Poem.findById(id)
-      document.querySelector('#update-poem').innerHTML += poem.renderUpdateForm();
-
+ 
+searchButton.addEventListener("click", e => {
+  e.preventDefault();
+  let query = document.getElementById("search-bar").value
+    fetch(`http://127.0.0.1:3000/api/v1/search/${query}`)
+    .then(res => res.json())
+    .then(poems => {
+      poemContainer.innerHTML = "";
+      poems.forEach((p) => {
+        poemContainer.innerHTML += 
+     `
+    <div data-id=${p.id}>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    <div class="col">
+      <div class="card shadow-sm">
+      <img src="${p.image_url}" class="card-img-top" alt="...">
+        <div class="card-body">
+        <h5 class="card-title">${p.title}</h5>
+        <i><p class="card-title">Created By: ${p.author}</p></i>
+          <p class="card-text">${p.stanza}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="btn-group">
+              <button data-id=${p.id} type="button">Edit</button>
+            </div>
+            <small class="filterDiv" class="text-muted">${query}</small>
+          </div>
+        </div>
+      </div>
+    </div> `;
+      })
     })
-    document.querySelector('#update-poem').addEventListener('submit', e => updateFormHandler(e))
-});
-
-
-
-
-function createFormHandler(e){ 
-  e.preventDefault()
-  const imageInput = document.querySelector('#input-url').value
-  const titleInput = document.querySelector('#input-title').value
-  const genreInput = document.querySelector('#input-genre').value
-  const authorInput = document.querySelector('#input-author').value
-  const stanzaInput = document.querySelector('#input-stanza').value
-  const categoryInput = parseInt(document.querySelector('#categories').value)
-   postFetch(imageInput,titleInput,genreInput,authorInput,stanzaInput,categoryInput);
-} 
- 
-function getPoem() {
-    fetch(myAPI)
-    .then(response => response.json())
-    .then(poem => { poem.data.forEach(poem => {
-     
-     let displayPoem = new Poem(poem.id, poem.attributes)
-     document.querySelector('#poem-container').innerHTML += displayPoem.renderPoemCard() 
-      }) 
-
-  
-      
-  })
-  
-}
-// const search = document.querySelector("#search")
-
-// const searchButton = document.querySelector('#search') 
-//   search.addEventListener("click", e => {
-//     e.preventDefault();
-//     let query = document.getElementById("search-bar").value
-//       fetch(`http://127.0.0.1:3000/api/v1/search/${query}`)
-//       .then(res => res.json())
-//       .then(poems => console.log(poems)
-     
-//       })
-//     })
-  
-//   })
-
-  
-
-
+})
 
 function sortPoems() {
   Poem.all = Poem.all.sort((a,b) => { 
@@ -154,9 +137,9 @@ function sortPoems() {
     }
     return 0;
   })
-  document.querySelector("#poem-container").innerHTML = "";
+  poemContainer.innerHTML = "";
   Poem.all.forEach((p) => {
-    document.querySelector("#poem-container").innerHTML += p.renderPoemCard();
+  poemContainer.innerHTML += p.renderPoemCard();
   })
 }
 

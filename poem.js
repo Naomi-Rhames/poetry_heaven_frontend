@@ -65,6 +65,8 @@ class Poem {
         this.category = category;
     }
 
+  
+
     renderPoemCard() {
         return `
         <div data-id=${this.id}>
