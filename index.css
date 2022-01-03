@@ -57,6 +57,12 @@ bd-placeholder-img {
   border-color: #B76E79;
 }
 
+
+.about-text{
+  --bs-text-opacity: 1;
+  color: #fff;
+}
+
   .jumbotron p:last-child{
       margin-bottom: 0;
   }
